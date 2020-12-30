@@ -1,0 +1,3 @@
+#Pycache dirs and pycache files 
+*/__pycache__/*
+*.pyc

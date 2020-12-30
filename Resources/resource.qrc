@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="Images">
+    <file>family.png</file>
+    <file>bed.png</file>
+    <file>cart.png</file>
+    <file>icon.png</file>
+    <file>list.png</file>
+  </qresource>
+  <qresource prefix="Data">
+    <file>Safeway-List.json</file>
+  </qresource>
+</RCC>
