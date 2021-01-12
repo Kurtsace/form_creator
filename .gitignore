@@ -1,3 +1,9 @@
 #Pycache dirs and pycache files 
 */__pycache__/*
 *.pyc
+
+#VENV dirs 
+*venv/*
+
+#Log files 
+*.log
