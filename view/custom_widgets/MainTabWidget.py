@@ -27,7 +27,7 @@ class MainTabWidget(QtWidgets.QWidget):
         #Initialize main tab 
         self.main_tab = QtWidgets.QTabWidget()
 
-        #Set the size policy the main tab height 
+        #Set the size policy
         self.size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         self.main_tab.setSizePolicy(self.size_policy)
 

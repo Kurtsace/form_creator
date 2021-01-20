@@ -17,7 +17,7 @@ class SRDependentsWidget(QtWidgets.QWidget):
         super(SRDependentsWidget, self).__init__(*args, **kwargs)
 
         #Setup UI
-        self.setup_ui
+        self.setup_ui()
 
     #Setup UI
     def setup_ui(self):
@@ -47,7 +47,7 @@ class SRDependentsWidget(QtWidgets.QWidget):
         #Add the radio buttons into a horixontal layout 
         rb_h_layout = QtWidgets.QHBoxLayout()
         rb_h_layout.addWidget(self.partner_rb_yes)
-        rb_h_layout.addWidget(self.partner_rb_yes)
+        rb_h_layout.addWidget(self.partner_rb_no)
 
         #Create the spin box for the number of children
         self.children_spinbox = QtWidgets.QSpinBox()
@@ -65,7 +65,6 @@ class SRDependentsWidget(QtWidgets.QWidget):
         form_layout.addRow(self.children_label, self.children_spinbox)
 
         #Add everything to the main layout 
-        layout.addWidget(self.label)
         layout.addLayout(form_layout)
 
         #Set the main layout 

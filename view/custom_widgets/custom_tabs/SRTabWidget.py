@@ -21,7 +21,8 @@ class SRTabWidget(QtWidgets.QWidget):
         #Setup UI
         self.setup_ui()
 
-        #Connect all signals 
+        #Connect all signals
+        self.connect_signals()
 
     #Setup UI 
     def setup_ui(self):
@@ -41,10 +42,14 @@ class SRTabWidget(QtWidgets.QWidget):
         #Create the create btn widget 
         self.create_btn = QtWidgets.QPushButton(text="Create")
 
+        #Create a vertical spacer
+        spacer = QtWidgets.QSpacerItem(0,10)
+
         #Add the widgets to the layout 
         layout.addWidget(self.search_bar)
         layout.addWidget(self.client_info_widget)
         layout.addWidget(self.dependents_widget)
+        layout.addSpacerItem(spacer)
         layout.addWidget(self.create_btn)
 
         #Set the layout 
@@ -58,4 +63,4 @@ class SRTabWidget(QtWidgets.QWidget):
 
     #Search btn clicked 
     def search_btn_clicked(self):
-        pass
+        print("search btn clicked from {x}".format(x=self.tab_name))

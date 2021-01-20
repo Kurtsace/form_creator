@@ -39,10 +39,14 @@ class FVTabWidget(QtWidgets.QWidget):
         #Create the create btn widget
         self.create_btn = QtWidgets.QPushButton(text="Create")
 
+        #Create a vertical spacer
+        spacer = QtWidgets.QSpacerItem(0,23)
+
         #Add widgets to the main layout 
         layout.addWidget(self.search_bar)
         layout.addWidget(self.client_info_widget)
         layout.addWidget(self.calc_amount_widget)
+        layout.addSpacerItem(spacer)
         layout.addWidget(self.create_btn)
 
         #Set the main layout 
