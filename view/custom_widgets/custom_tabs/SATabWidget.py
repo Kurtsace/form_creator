@@ -2,8 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 
 #Custom widgets 
-from .common_widgets.SearchBarWidget import SearchBarWidget
-from .common_widgets.ClientInfoWidget import ClientInfoWidget
+from .common_widgets.widgets import *
 
 #Salvation Army tab class
 class SATabWidget(QtWidgets.QWidget):
@@ -25,24 +24,30 @@ class SATabWidget(QtWidgets.QWidget):
 
         #Set vertical layout 
         layout = QtWidgets.QVBoxLayout()
-
-        #Add a SearchBarWidget 
-        self.search_bar = SearchBarWidget()
         
         #Add the SA client info widget
         self.client_info_widget = ClientInfoWidget()
+
+        #Instantiate a night spin box widget 
+        self.night_spinbox_widget = NightSpinboxWidget()
 
         #Add the create button 
         self.create_btn = QtWidgets.QPushButton(text="Create")
 
         #Create a vertical spacer
-        spacer = QtWidgets.QSpacerItem(0,96)
+        spacer = QtWidgets.QSpacerItem(0,2)
 
-        #Add widgets to the layout 
-        layout.addWidget(self.search_bar)
+        #Add widgets to the layout
+        layout.addSpacerItem(spacer) 
         layout.addWidget(self.client_info_widget)
-        layout.addSpacerItem(spacer)
+        layout.addWidget(self.night_spinbox_widget)
         layout.addWidget(self.create_btn)
 
         #Set the layout 
         self.setLayout(layout)
+
+    #Set client info fields
+    def set_client_info_fields(self, client_info):
+        
+        #Set the client info widget fields
+        self.client_info_widget.set_fields(client_info)

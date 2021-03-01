@@ -2,9 +2,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 
 #Custom widgets 
-from .common_widgets.SearchBarWidget import SearchBarWidget
-from .common_widgets.ClientInfoWidget import ClientInfoWidget
+from .common_widgets.widgets import *
 from .sr_tab_widgets.SRDependentsWidget import SRDependentsWidget
+
+#Pop up dialog 
+from ..popup_dialog.popups import warning_popup
 
 #Son Rise Village tab widget class
 class SRTabWidget(QtWidgets.QWidget):
@@ -21,20 +23,17 @@ class SRTabWidget(QtWidgets.QWidget):
         #Setup UI
         self.setup_ui()
 
-        #Connect all signals
-        self.connect_signals()
-
     #Setup UI 
     def setup_ui(self):
 
         #Create main vertical layo ut 
         layout = QtWidgets.QVBoxLayout()
 
-        #Instantiate the search bar widget
-        self.search_bar = SearchBarWidget()
-
         #Instantiate the client info widget 
         self.client_info_widget = ClientInfoWidget()
+
+        #Instantiate a night spin box widget 
+        self.night_spinbox_widget = NightSpinboxWidget()
 
         #Instantiate a dependents widget 
         self.dependents_widget = SRDependentsWidget()
@@ -43,24 +42,21 @@ class SRTabWidget(QtWidgets.QWidget):
         self.create_btn = QtWidgets.QPushButton(text="Create")
 
         #Create a vertical spacer
-        spacer = QtWidgets.QSpacerItem(0,10)
+        spacer = QtWidgets.QSpacerItem(0,2)
 
         #Add the widgets to the layout 
-        layout.addWidget(self.search_bar)
-        layout.addWidget(self.client_info_widget)
-        layout.addWidget(self.dependents_widget)
         layout.addSpacerItem(spacer)
+        layout.addWidget(self.client_info_widget)
+        layout.addWidget(self.night_spinbox_widget)
+        layout.addWidget(self.dependents_widget)
         layout.addWidget(self.create_btn)
 
         #Set the layout 
         self.setLayout(layout)
 
-    #Connect signals 
-    def connect_signals(self):
+    #Set client info fields
+    def set_client_info_fields(self, client_info):
+        
+        #Set the client info widget fields
+        self.client_info_widget.set_fields(client_info)
 
-        #Connect search btn signal from search bar widget 
-        self.search_bar.search_btn.clicked.connect(self.search_btn_clicked)
-
-    #Search btn clicked 
-    def search_btn_clicked(self):
-        print("search btn clicked from {x}".format(x=self.tab_name))

@@ -20,6 +20,7 @@ class FVTabWidget(QtWidgets.QWidget):
 
         #Setup UI 
         self.setup_ui()
+        
 
     #Setup UI method 
     def setup_ui(self):
@@ -27,8 +28,8 @@ class FVTabWidget(QtWidgets.QWidget):
         #Create the main vertical layout 
         layout = QtWidgets.QVBoxLayout()
 
-        #Instantiate the search widget 
-        self.search_bar = SearchBarWidget()
+        #Create a confirm label
+        self.confirm_client_label = QtWidgets.QLabel("Confirm Client Info")
 
         #Instantiate the FV Client Info Widget
         self.client_info_widget = FVClientInfoWidget()
@@ -40,14 +41,26 @@ class FVTabWidget(QtWidgets.QWidget):
         self.create_btn = QtWidgets.QPushButton(text="Create")
 
         #Create a vertical spacer
-        spacer = QtWidgets.QSpacerItem(0,23)
+        spacer = QtWidgets.QSpacerItem(0, 2)
 
-        #Add widgets to the main layout 
-        layout.addWidget(self.search_bar)
+        #Add widgets to the main layout
+        layout.addSpacerItem(spacer)
         layout.addWidget(self.client_info_widget)
         layout.addWidget(self.calc_amount_widget)
-        layout.addSpacerItem(spacer)
         layout.addWidget(self.create_btn)
 
         #Set the main layout 
         self.setLayout(layout)
+
+    # Connect signals 
+    def connect_signals():
+        pass
+
+    #Set client info fields
+    def set_client_info_fields(self, client_info):
+        
+        # Save the client instance 
+        self.client = client_info
+
+        #Set the client info widget fields
+        self.client_info_widget.set_fields(client_info)

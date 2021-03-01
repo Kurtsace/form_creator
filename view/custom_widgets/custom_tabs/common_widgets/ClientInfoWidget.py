@@ -7,8 +7,6 @@ from PyQt5.QtCore import Qt
 #Case Number: [           ] | QLabel : QLineEdit (read only)
 #Client Name: [           ] | QLabel : QLineEdit (read only)
 #Date of Birth: [           ] | QLabel : QLineEdit (read only)
-#Gender: o Male   o Female | QLabel : QRadioButton QRadioButton
-#Nights: [1          ] | QLabel : QSpinBox
 class ClientInfoWidget(QtWidgets.QWidget):
 
     #Init 
@@ -34,20 +32,6 @@ class ClientInfoWidget(QtWidgets.QWidget):
         self.case_number_label = QtWidgets.QLabel(text="Case Number:")
         self.client_name_label = QtWidgets.QLabel(text="Client Name:")
         self.dob_label = QtWidgets.QLabel(text="Date Of Birth:")
-        self.gender_label = QtWidgets.QLabel(text="Gender:")
-        self.nights_label = QtWidgets.QLabel(text="Nights:")
-
-        #Create radio buttons
-        self.male_radio_btn = QtWidgets.QRadioButton(text="Male")
-        self.female_radio_btn = QtWidgets.QRadioButton(text="Female")
-
-        #Create radio button groups to avoid conflicts 
-        # with selection on similar radio buttons on the page
-        self.gender_btn_group = QtWidgets.QButtonGroup()
-
-        #Add the radio buttons to the group 
-        self.gender_btn_group.addButton(self.male_radio_btn)
-        self.gender_btn_group.addButton(self.female_radio_btn)
 
         #Create read only line edit boxes
         self.case_number_line = QtWidgets.QLineEdit()
@@ -59,20 +43,30 @@ class ClientInfoWidget(QtWidgets.QWidget):
         self.client_name_line.setReadOnly(True)
         self.dob_line.setReadOnly(True)
 
-        #Create nights spin box 
-        self.nights_spinbox = QtWidgets.QSpinBox()
+        #Create a horizontal layout to store the buttons 
+        self.radio_layout = QtWidgets.QHBoxLayout()
 
-        #Set min/max value for spin box 
-        self.nights_spinbox.setMaximum(7)
-        self.nights_spinbox.setMinimum(1)
+        #Create radio buttons
+        self.male_radio_btn = QtWidgets.QRadioButton(text="Male")
+        self.female_radio_btn = QtWidgets.QRadioButton(text="Female")
+
+        #Create the gender label 
+        self.gender_label = QtWidgets.QLabel("Gender:")
+
+        #Create radio button groups to avoid conflicts 
+        #with selection on similar radio buttons on the page
+        self.gender_btn_group = QtWidgets.QButtonGroup()
+
+        #Add the radio buttons to the group 
+        self.gender_btn_group.addButton(self.male_radio_btn)
+        self.gender_btn_group.addButton(self.female_radio_btn)
+
+        #Add the radio buttons to the radio layout 
+        self.radio_layout.addWidget(self.male_radio_btn)
+        self.radio_layout.addWidget(self.female_radio_btn)
 
         #Create a form layout 
         self.form_layout = QtWidgets.QFormLayout()
-
-        #Create a radio button layout
-        self.radio_btn_h_layout = QtWidgets.QHBoxLayout()
-        self.radio_btn_h_layout.addWidget(self.male_radio_btn)
-        self.radio_btn_h_layout.addWidget(self.female_radio_btn)
 
         #Create form group box 
         self.create_formgroup()
@@ -91,9 +85,21 @@ class ClientInfoWidget(QtWidgets.QWidget):
         self.form_layout.addRow(self.case_number_label, self.case_number_line)
         self.form_layout.addRow(self.client_name_label, self.client_name_line)
         self.form_layout.addRow(self.dob_label, self.dob_line)
-        self.form_layout.addRow(self.gender_label, self.radio_btn_h_layout)
-        self.form_layout.addRow(self.nights_label, self.nights_spinbox)
+        self.form_layout.addRow(self.gender_label, self.radio_layout)
 
     #Connect signals to the widgets 
     def connect_signals(self):
         pass
+
+    #Set client info fields 
+    def set_fields(self, client_info):
+
+        # Set client gender
+        client_info.gender = self.male_radio_btn.text() if self.male_radio_btn.isChecked() else self.female_radio_btn.text()
+
+        #Set each field to its corresponding label 
+        self.case_number_line.setText(client_info.case_number)
+        self.client_name_line.setText(client_info.full_name)
+        self.dob_line.setText(client_info.dob)
+
+        print( client_info.toString() )

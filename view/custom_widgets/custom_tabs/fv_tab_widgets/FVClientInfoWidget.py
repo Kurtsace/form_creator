@@ -45,6 +45,7 @@ class FVClientInfoWidget(QtWidgets.QWidget):
         confirm_client_formgroup = QtWidgets.QFormLayout()
 
         # Add the individual rows to the form group
+        confirm_client_formgroup.addRow(self.confirm_client_label)
         confirm_client_formgroup.addRow(self.client_name_label, self.client_name_line)
         confirm_client_formgroup.addRow(self.dob_label, self.dob_line)
         confirm_client_formgroup.addRow(self.address_label, self.address_line)
@@ -55,3 +56,11 @@ class FVClientInfoWidget(QtWidgets.QWidget):
     #Connect all the signals to the widgets
     def connect_signals(self):
         pass
+
+    #Set client infor fields method 
+    def set_fields(self, client_info):
+
+        #Set each field to its corresponding label 
+        self.client_name_line.setText(client_info.full_name)
+        self.dob_line.setText(client_info.dob)
+        self.address_line.setText(client_info.address)

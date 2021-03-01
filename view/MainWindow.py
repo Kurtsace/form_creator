@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QThreadPool
 from PyQt5 import QtWidgets, QtGui
 
 #Custom widgets 
@@ -10,12 +10,14 @@ from resources import resource
 
 #Main Window class 
 class MainWindow(QMainWindow):
-
     #Init
     def __init__(self, *args, **kwargs):
 
         #Call super method 
         super(MainWindow, self).__init__(*args, **kwargs)
+
+        # Begin a threadpool 
+        self.threadpool = QThreadPool()
 
         #Setup UI
         self.setup_ui()
@@ -41,12 +43,22 @@ class MainWindow(QMainWindow):
         self.logo_widget.setPixmap(pixmap)
         self.logo_widget.setAlignment(Qt.AlignCenter)
 
+        #Instantiate a main search bar widget
+        self.search_bar_widget = SearchBarWidget(parent=self)
+
         #Instantiate a main tab widget 
         self.main_tab = MainTabWidget()
 
-        #Add it to the main vertical layout
+        #Add widgets to the main vertical layout
         self.vertical_layout.addWidget(self.logo_widget)
+        self.vertical_layout.addWidget(self.search_bar_widget)
         self.vertical_layout.addWidget(self.main_tab)
 
         #Add the main tab as the central widget 
         self.setCentralWidget(self.central_widget)
+
+    #Set methods 
+    def set_client_info_fields(self, client_info):
+        
+        #Call the main tabs set client info fields method 
+        self.main_tab.set_client_info_fields(client_info)

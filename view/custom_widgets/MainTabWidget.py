@@ -46,3 +46,12 @@ class MainTabWidget(QtWidgets.QWidget):
 
         #Set the widget layout 
         self.setLayout(self.layout)
+
+
+    #Set client info fields for all tabs 
+    def set_client_info_fields(self, client_info):
+
+        #Call the set methods for each tab 
+        self.sa_tab.set_client_info_fields(client_info)
+        self.fv_tab.set_client_info_fields(client_info)
+        self.sr_tab.set_client_info_fields(client_info)
