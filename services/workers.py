@@ -2,7 +2,6 @@
 
 # Imports
 from PyQt5.QtCore import QRunnable, pyqtSlot, QObject, pyqtSignal
-from model.client import Client
 
 import traceback
 
@@ -35,16 +34,17 @@ class ScraperWorker(QRunnable):
             # Emit the running signal
             self.signals.running.emit(True)
 
-            # Run the provided function and get a client object
+            # Run the provided function
             result = self.func(self.id)
+
+            # Emit true if the client has not been found 
+            if not result:
+                self.signals.error.emit(True)
 
         except: 
             traceback.print_exc()
 
         else:
-            # Emit the result as a signal
-            self.signals.result.emit(result)
-
             # Emit false for running signal
             self.signals.running.emit(False)
 
@@ -61,17 +61,17 @@ class WorkerSignals(QObject):
     '''
     Signals available from a currently running worker thread:
 
-    result
-        Client object data returned 
-
     finished 
         Returns true or false --indicates process is done
 
     running 
-        Returns true if thread is still processing or not 
+        Returns true if thread is still processing or not
+
+    error
+        Returns true if client was not found 
 
     '''
 
-    result = pyqtSignal(Client)
     finished = pyqtSignal(bool)
     running = pyqtSignal(bool)
+    error = pyqtSignal(bool)

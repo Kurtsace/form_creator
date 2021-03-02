@@ -1,22 +1,28 @@
 
-# Client class
+# Client module
 # Stores client info from parsed Request Log item
 
+# Set client  variables
+case_number = ''
+first_name = ''
+last_name = ''
+dob = ''
+full_name = ''
+address = ''
+gender = ''
 
-class Client:
+# Set fields 
+def setFields(case_number_='', first_name_='', last_name_='', dob_='', full_name_='', address_='', gender_=''):
+    # Set client  variables
+    case_number = case_number_
+    first_name = first_name_.title().strip()
+    last_name = last_name_.title().strip()
+    dob = dob_
+    full_name = first_name_ + " " + last_name_
+    address = address_
+    gender = gender_
 
-    # Constructor
-    def __init__(self, case_num='', first_name='', last_name='', dob='', address=''):
-        
-        # Set client  variables 
-        self.case_number = case_num
-        self.first_name = first_name.title().strip()
-        self.last_name = last_name.title().strip()
-        self.dob = dob
-        self.full_name = self.first_name + " " + self.last_name
-        self.address = address
-        self.gender = ''
-    
-    # Print method
-    def toString(self):
-       return "Case Num: {} | Name: {} | DOB: {} | Address: {}".format(self.case_number, self.full_name, self.dob, self.address)
+
+# Print method
+def toString():
+    return "Case Num: {} | Name: {} | DOB: {} | Address: {}".format(case_number, full_name, dob, address)

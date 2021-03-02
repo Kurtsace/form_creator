@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QMessageBox
 #Pop ups dialogs to show when thigns go wrong or to warn users 
 
 #Warning message pop up 
-def warning_popup(window_title="Warning Title", text="Warning text"):
+def warning_popup(text="Warning text"):
 
     #Intantiate a message box 
     msg = QMessageBox()
@@ -13,7 +13,7 @@ def warning_popup(window_title="Warning Title", text="Warning text"):
     #msg.setWindowIcon()
 
     #Set the window title 
-    msg.setWindowTitle(window_title)
+    msg.setWindowTitle("Warning")
 
     #Set the text content to show 
     msg.setText(text)
@@ -30,7 +30,7 @@ def warning_popup(window_title="Warning Title", text="Warning text"):
 
 
 #Critical error message pop up 
-def error_popup(window_title="Error Title", text="Error text", detailed_text="Error details"):
+def error_popup(text="Error text", detailed_text="Error details"):
 
         #Intantiate a message box 
     msg = QMessageBox()
@@ -39,7 +39,7 @@ def error_popup(window_title="Error Title", text="Error text", detailed_text="Er
     #msg.setWindowIcon()
 
     #Set the window title 
-    msg.setWindowTitle(window_title)
+    msg.setWindowTitle("Error")
 
     #Set the text content to show 
     msg.setText(text)

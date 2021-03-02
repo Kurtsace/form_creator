@@ -2,7 +2,7 @@
 
 # Imports
 from selenium import webdriver
-from model.client import Client
+import model.client as client
 import traceback
 import os
 
@@ -10,8 +10,6 @@ import os
 # Get client info
 def get_client_info(id):
 
-    # Client instance 
-    client = Client(); 
 
     # For testing purposes supply a hard coded url
     # Later on replace this with a get request to the hcc-server for updated urls
@@ -37,7 +35,7 @@ def get_client_info(id):
 
     except :
         traceback.print_exc()
-        return client
+        return
 
     # Navigate to the ID page --No auth header needed
     driver.get(url)
@@ -46,27 +44,30 @@ def get_client_info(id):
     # Get the xpath of the SPFieldText item within the table only 
     field_elements = driver.find_elements_by_xpath("//*[@id='SPFieldText']")
 
-    # Ensure the element list is not empty 
-    if not field_elements:
-        return client
-
-    # Convert from raw xpath objects to string 
-    field_elements = [field.text for field in field_elements]
-
     # End the driver instance 
     driver.quit()
 
-    # Build a client model object using the scraped data
-    # Index is as follows:
-    # field_elements[0] = Case number 
-    # [1] = first name 
-    # [2] = last name
-    # [3] = dob
-    # [4] = Street address
-    # [5] = unit number
-    # Note that address can be blank here depending on the type of request 
-    address = field_elements[5] + " " + field_elements[4]
-    client = Client(field_elements[0], field_elements[1], field_elements[2], field_elements[3], address)
+    # Ensure the element list is not empty 
+    if field_elements:
 
-    return client
+        # Convert from raw xpath objects to string 
+        field_elements = [field.text for field in field_elements]
+
+        # Build a client model using the scraped data
+        # Index is as follows:
+        # [0] = Case number 
+        # [1] = first name 
+        # [2] = last name
+        # [3] = dob
+        # [4] = Street address
+        # [5] = unit number
+        # Note that address can be blank here depending on the type of request 
+        address = field_elements[5] + " " + field_elements[4]
+        client.setFields(field_elements[0], field_elements[1], field_elements[2], field_elements[3], address)
+
+        # Return true 
+        return True
+
+    # Return false if the client was not found 
+    return False
     

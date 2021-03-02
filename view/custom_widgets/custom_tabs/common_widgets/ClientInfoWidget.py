@@ -1,5 +1,10 @@
+
+# PyQt5 Imports 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
+
+# Other imports 
+import model.client as client_info
 
 #Custom widget class that contains the client info fields as follows: 
 #
@@ -92,7 +97,7 @@ class ClientInfoWidget(QtWidgets.QWidget):
         pass
 
     #Set client info fields 
-    def set_fields(self, client_info):
+    def set_fields(self):
 
         # Set client gender
         client_info.gender = self.male_radio_btn.text() if self.male_radio_btn.isChecked() else self.female_radio_btn.text()

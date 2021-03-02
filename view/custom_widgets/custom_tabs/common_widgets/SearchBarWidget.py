@@ -1,12 +1,12 @@
+
+# PyQt5 imports 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QThreadPool
 
-from services.scraper import get_client_info
-from functools import partial
-
+# Other imports 
 from services.workers import ScraperWorker
-
-from model.client import Client
+from view.custom_widgets.popup_dialog import popups
+from services.scraper import get_client_info
 
 #Search Bar Widget class to use for searching for request log ID's 
 class SearchBarWidget(QtWidgets.QWidget):
@@ -78,33 +78,49 @@ class SearchBarWidget(QtWidgets.QWidget):
 
         #Get the client info first 
         # Run in a separate thread to prevent crashing of the main window 
-        id = self.search_bar.text()
+        id_ = self.search_bar.text()
 
         # Create a worker thread
-        scraper_thread = ScraperWorker(get_client_info, id)
+        scraper_thread = ScraperWorker(get_client_info, id_)
 
         # Connect the signals to the worker thread
-        # Signal for the processed result
-        scraper_thread.signals.result.connect(self.parent.set_client_info_fields)
-
         # Signal for when the thread is finished
-        scraper_thread.signals.finished.connect(self.enable_search_btn)
+        scraper_thread.signals.finished.connect(self.set_client_fields)
 
         # Signal for if the thread is still running
-        scraper_thread.signals.running.connect(self.disable_search_btn)
+        scraper_thread.signals.running.connect(self.enable_search_btn)
+
+        # Signal for when an error has occured, i.e when the client is not found
+        scraper_thread.signals.error.connect(self.show_error)
 
         # Begin the thread
         self.parent.threadpool.start(scraper_thread)
 
+    # Show error method 
+    def show_error(self):
+
+        # Pop up a dialog for the error message 
+        popups.error_popup(text="Client not found!", detailed_text="Make sure the Request Log ID has already been created or is within bounds")
+
+    # Set client fields 
+    def set_client_fields(self):
+
+        # Enable the search btn
+        self.enable_search_btn(True)
+
+        # Call the parents set client fields method
+        self.parent.set_client_info_fields()
+
+
     # Enable search btn
     def enable_search_btn(self, signal):
-        self.search_btn.setEnabled(signal)
-        self.search_btn.setText("Search")
 
-    # Disable search btn
-    def disable_search_btn(self, signal):
-        self.search_btn.setDisabled(signal)
-        self.search_btn.setText("Searching")
+        # Enable btn based on signal sent 
+        self.search_btn.setEnabled(signal)
+
+        # Set the search btn text based on the signal 
+        text = "Search" if signal else "Searching"
+        self.search_btn.setText(text)
 
     #Search bar text changed 
     def search_text_changed(self):

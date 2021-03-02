@@ -53,14 +53,11 @@ class FVTabWidget(QtWidgets.QWidget):
         self.setLayout(layout)
 
     # Connect signals 
-    def connect_signals():
+    def connect_signals(self):
         pass
 
     #Set client info fields
-    def set_client_info_fields(self, client_info):
-        
-        # Save the client instance 
-        self.client = client_info
+    def set_client_info_fields(self):
 
         #Set the client info widget fields
-        self.client_info_widget.set_fields(client_info)
+        self.client_info_widget.set_fields()

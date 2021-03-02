@@ -55,8 +55,8 @@ class SRTabWidget(QtWidgets.QWidget):
         self.setLayout(layout)
 
     #Set client info fields
-    def set_client_info_fields(self, client_info):
+    def set_client_info_fields(self):
         
         #Set the client info widget fields
-        self.client_info_widget.set_fields(client_info)
+        self.client_info_widget.set_fields()
 

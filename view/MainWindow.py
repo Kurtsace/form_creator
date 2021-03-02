@@ -58,7 +58,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.central_widget)
 
     #Set methods 
-    def set_client_info_fields(self, client_info):
+    def set_client_info_fields(self):
         
         #Call the main tabs set client info fields method 
-        self.main_tab.set_client_info_fields(client_info)
+        self.main_tab.set_client_info_fields()
