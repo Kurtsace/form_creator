@@ -34,3 +34,7 @@ class NightSpinboxWidget(QtWidgets.QWidget):
 
         #Set the main layout 
         self.setLayout(layout)
+
+    #Get value of the spin box
+    def value(self):
+        return self.nights_spinbox.value()

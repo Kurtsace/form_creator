@@ -4,7 +4,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 
 # Other imports 
-import model.client as client_info
+from model.client import client_info
 
 # Custom widget class that contains the client info fields as follows:
 #
@@ -66,6 +66,6 @@ class FVClientInfoWidget(QtWidgets.QWidget):
     def set_fields(self):
 
         #Set each field to its corresponding label 
-        self.client_name_line.setText(client_info.full_name)
-        self.dob_line.setText(client_info.dob)
-        self.address_line.setText(client_info.address)
+        self.client_name_line.setText(client_info['full_name'])
+        self.dob_line.setText(client_info['dob'])
+        self.address_line.setText(client_info['address'])

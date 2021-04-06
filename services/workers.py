@@ -2,6 +2,7 @@
 
 # Imports
 from PyQt5.QtCore import QRunnable, pyqtSlot, QObject, pyqtSignal
+from model.client import client_info
 
 import traceback
 
@@ -35,14 +36,18 @@ class ScraperWorker(QRunnable):
             self.signals.running.emit(True)
 
             # Run the provided function
-            result = self.func(self.id)
+            result, func_trace = self.func(self.id)
 
             # Emit true if the client has not been found 
-            if not result:
-                self.signals.error.emit(True)
+            if client_info['case_number'] == '':
+                self.signals.client_not_found_error.emit(True)
+
+            # Emit the traceback from the chrome driver (if there is one)
+            if result == -1:
+                self.signals.error.emit(func_trace)
 
         except: 
-            traceback.print_exc()
+            self.signals.error.emit(traceback.format_exc())
 
         else:
             # Emit false for running signal
@@ -74,4 +79,5 @@ class WorkerSignals(QObject):
 
     finished = pyqtSignal(bool)
     running = pyqtSignal(bool)
-    error = pyqtSignal(bool)
+    error = pyqtSignal(str)
+    client_not_found_error = pyqtSignal(bool)

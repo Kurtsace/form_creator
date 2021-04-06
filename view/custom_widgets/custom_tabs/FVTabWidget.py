@@ -20,8 +20,9 @@ class FVTabWidget(QtWidgets.QWidget):
 
         #Setup UI 
         self.setup_ui()
-        
 
+        #Connect signals 
+        
     #Setup UI method 
     def setup_ui(self):
 
@@ -55,9 +56,3 @@ class FVTabWidget(QtWidgets.QWidget):
     # Connect signals 
     def connect_signals(self):
         pass
-
-    #Set client info fields
-    def set_client_info_fields(self):
-
-        #Set the client info widget fields
-        self.client_info_widget.set_fields()

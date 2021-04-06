@@ -1,5 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
+from services.pdf import create_auth_form_sa
+from model.client import client_info
+from view.custom_widgets.popup_dialog.popups import warning_popup
 
 #Custom widgets 
 from .common_widgets.widgets import *
@@ -18,6 +21,9 @@ class SATabWidget(QtWidgets.QWidget):
 
         #Setup UI
         self.setup_ui()
+
+        #Connect signals 
+        self.connect_signals()
 
     #Setup UI 
     def setup_ui(self):
@@ -46,8 +52,30 @@ class SATabWidget(QtWidgets.QWidget):
         #Set the layout 
         self.setLayout(layout)
 
-    #Set client info fields
-    def set_client_info_fields(self):
-        
-        #Set the client info widget fields
-        self.client_info_widget.set_fields()
+    #Connect signals 
+    def connect_signals(self):
+        self.create_btn.clicked.connect(self.create_form)
+
+    # Create auth form
+    def create_form(self):
+
+        #Make sure fields are populated 
+        if len(client_info.keys()) > 0:
+
+            #MAke sure gender is selected
+            if ( self.client_info_widget.male_radio_btn.isChecked() or self.client_info_widget.female_radio_btn.isChecked() ):
+
+                #Set gender
+                if self.client_info_widget.female_radio_btn.isChecked():
+                    client_info['gender'] = self.client_info_widget.female_radio_btn.text()
+                else:
+                    client_info['gender'] = self.client_info_widget.male_radio_btn.text()
+
+                #Create form 
+                create_auth_form_sa(self.night_spinbox_widget.value())
+            else:
+                # Show warning message
+                warning_popup("Gender needs to be selected!")
+        else:
+            #Show warning 
+            warning_popup("No client selected! Make sure to search for a request log first.")

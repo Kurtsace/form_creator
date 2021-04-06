@@ -1,7 +1,7 @@
 # Imports 
 from fpdf import FPDF
 from datetime import datetime
-import model.client as client_info
+from model.client import client_info
 import os 
 
 
@@ -18,7 +18,7 @@ def create_header(pdf, vendor):
     pdf.cell(200, 10, txt="(1-866-559-6778 or hcc@gov.mb.ca)", ln=1, align="C")
 
     # Set the font
-    pdf.set_font("Arial", size=12,)
+    pdf.set_font("Arial", size=12)
 
     # Dated -- Todays date
     pdf.cell(200, 10, txt="Dated: {}".format(
@@ -56,7 +56,7 @@ def create_footer(pdf):
 
 
 # Create a PDF template for an auth form filled out with all the info
-def create_auth_form(nights):
+def create_auth_form_sa(nights):
 
     # Instantiate a PDF object
     pdf = FPDF()
@@ -68,7 +68,7 @@ def create_auth_form(nights):
     create_header(pdf, vendor="Salvation Army")
 
     # Set the font
-    pdf.set_font("Arial", size=12, style='B')
+    pdf.set_font("Arial", size=12)
 
     # Email contact
     pdf.cell(
@@ -76,15 +76,15 @@ def create_auth_form(nights):
 
     # Client name
     pdf.cell(200, 10, txt="Client Name: {}".format(
-        client_info.fullName), ln=1, align="L")
+        client_info['full_name']), ln=1, align="L")
 
     # Client case number
     pdf.cell(200, 10, txt="Case Number: {}".format(
-        client_info.caseNum), ln=1, align="L")
+        client_info['case_number']), ln=1, align="L")
 
     # Client DOB
     pdf.cell(200, 10, txt="DOB: {}".format(
-        client_info.dob), ln=1, align="L")
+        client_info['dob']), ln=1, align="L")
 
     # Nights required
     pdf.cell(200, 10, txt="We require 1 room(s) for the following persons for {} night(s):".format(
@@ -92,7 +92,7 @@ def create_auth_form(nights):
 
     # Create the table
     data = [["First Name", "Last Name", "Gender"], [
-        client_info.firstName, client_info.lastName, client_info.gender]]
+        client_info['first_name'], client_info['last_name'], client_info['gender']]]
 
     # Set dimensions
     col_width = pdf.w / 4.5
@@ -144,15 +144,15 @@ def create_food_voucher(amount, food, diapers, fuel, location, fax, id):
 
     # Client name
     pdf.cell(200, 10, txt="Client Name: {}".format(
-        client_info.fullName), ln=1, align="L")
+        client_info['full_name']), ln=1, align="L")
 
     # Client case number
     pdf.cell(200, 10, txt="DOB: {}".format(
-        client_info.dob), ln=1, align="L")
+        client_info['dob']), ln=1, align="L")
 
     # Client DOB
     pdf.cell(200, 10, txt="Address: {}".format(
-        client_info.address), ln=1, align="L")
+        client_info['address']), ln=1, align="L")
 
     # Authorized amount and items
     pdf.multi_cell(
@@ -199,7 +199,7 @@ def create_food_voucher(amount, food, diapers, fuel, location, fax, id):
     output_file(pdf)
 
 # Create a PDF of a Son Rise auth form
-def createAuthFormSR(spouse, children, nights):
+def create_auth_form_sr(spouse, children, nights):
 
     # Instantiate a PDF object
     pdf = FPDF()
@@ -232,15 +232,15 @@ def createAuthFormSR(spouse, children, nights):
 
     # Client name
     pdf.cell(200, 10, txt="Client Name: {}".format(
-        client_info.fullName), ln=1, align="L")
+        client_info['full_name']), ln=1, align="L")
 
     # Client case number
     pdf.cell(200, 10, txt="Case Number: {}".format(
-        client_info.caseNum), ln=1, align="L")
+        client_info['case_num']), ln=1, align="L")
 
     # Client DOB
     pdf.cell(200, 10, txt="DOB: {}".format(
-        client_info.dob), ln=1, align="L")
+        client_info['dob']), ln=1, align="L")
 
     # Nights required
     pdf.cell(200, 10, txt="We require 1 room(s) for the following persons for {} night(s):".format(
@@ -248,7 +248,7 @@ def createAuthFormSR(spouse, children, nights):
 
     # Create the table
     data = [["First Name", "Last Name", "Gender"], [
-        client_info.firstName, client_info.lastName, client_info.gender]]
+        client_info['first_name'], client_info['last_name'], client_info['gender']]]
 
     # Add spouse to the list if a spouse is true
     if spouse:
@@ -297,11 +297,11 @@ def output_file(pdf):
 
     # Output file to the folder if it already exists
     if os.path.exists(path):
-        filename = path + "/{}.pdf".format(client.full_name)
+        filename = path + "/{}.pdf".format(client_info['full_name'])
         pdf.output(filename)
 
     # Make the folder if it does not exist then save it in there
     else:
         os.mkdir(path)
-        filename = path + "/{}.pdf".format(client.full_name)
+        filename = path + "/{}.pdf".format(client_info['full_name'])
         pdf.output(filename)

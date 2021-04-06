@@ -1,83 +1,89 @@
 
-# PyQt5 imports 
+# PyQt5 imports
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QThreadPool
 
-# Other imports 
+# Other imports
 from services.workers import ScraperWorker
 from view.custom_widgets.popup_dialog import popups
 from services.scraper import get_client_info
 
-#Search Bar Widget class to use for searching for request log ID's 
+# Search Bar Widget class to use for searching for request log ID's
+
+
 class SearchBarWidget(QtWidgets.QWidget):
 
-    #Init 
+    # Init
     def __init__(self, parent, *args, **kwargs):
 
-        #Call super init method 
+        # Call super init method
         super(SearchBarWidget, self).__init__(*args, **kwargs)
 
-        #Setup UI 
+        # Setup UI
         self.setup_ui()
 
-        #Set parent widget
+        # Set parent widget
         self.parent = parent
 
-        #Connect signals
+        # Connect signals
         self.connect_signals()
 
-    #Set up UI
+    # Set up UI
     def setup_ui(self):
 
-        #Create a main vertical layout 
+        # Create a main vertical layout
         layout = QtWidgets.QVBoxLayout()
 
-        #Create a horizontal layout for the search bar and button 
+        # Create a horizontal layout for the search bar and button
         search_layout = QtWidgets.QHBoxLayout()
 
-        #Create a label 
+        # Create a label
         self.label = QtWidgets.QLabel(text="Enter a Request Log ID")
 
-        #Create a button and a line edit (search bar)
+        # Create a button and a line edit (search bar)
         self.search_btn = QtWidgets.QPushButton(text="Search")
         self.search_bar = QtWidgets.QLineEdit()
 
-        #Disable search btn by default
+        # Disable search btn by default
         self.search_btn.setEnabled(False)
 
-        #Create an integer only validator for the search line 
-        #This will only allow numbers greater than 0 to be typed into the search bar
+        # Create an integer only validator for the search line
+        # This will only allow numbers greater than 0 to be typed into the search bar
         validator = QtGui.QIntValidator(bottom=0, parent=self)
 
-        #Set the validator for the line edit 
+        # Set the validator for the line edit
         self.search_bar.setValidator(validator)
 
-        #Add the button and search bar to the horizontal search layout 
+        # Add the button and search bar to the horizontal search layout
         search_layout.addWidget(self.search_bar)
         search_layout.addWidget(self.search_btn)
 
-        #Set the margins of the main layout
+        # Set the margins of the main layout
         layout.addStretch(1)
         layout.setSpacing(5)
 
-        #Add the label and search widgets to the main layout
+        # Add the label and search widgets to the main layout
         layout.addWidget(self.label)
         layout.addLayout(search_layout)
 
-        #Set the layout of the widget 
+        # Set the layout of the widget
         self.setLayout(layout)
 
-     #Connect signals
+     # Connect signals
     def connect_signals(self):
 
         self.search_btn.clicked.connect(self.search_client)
         self.search_bar.textChanged.connect(self.search_text_changed)
 
-    #Search client info method 
+    # Search client info method
     def search_client(self):
 
-        #Get the client info first 
-        # Run in a separate thread to prevent crashing of the main window 
+        # Disable the search button and change the text
+        self.search_btn.setEnabled(False)
+        self.search_btn.setText("Searching")
+
+        # Get the client info first
+        # Run in a separate thread to prevent crashing of the main window
         id_ = self.search_bar.text()
 
         # Create a worker thread
@@ -87,46 +93,47 @@ class SearchBarWidget(QtWidgets.QWidget):
         # Signal for when the thread is finished
         scraper_thread.signals.finished.connect(self.set_client_fields)
 
-        # Signal for if the thread is still running
-        scraper_thread.signals.running.connect(self.enable_search_btn)
-
         # Signal for when an error has occured, i.e when the client is not found
-        scraper_thread.signals.error.connect(self.show_error)
+        scraper_thread.signals.client_not_found_error.connect(self.show_error)
+
+        # Signal for when a traceback occurs regarding the chromedriver
+        scraper_thread.signals.error.connect(self.show_traceback_error)
 
         # Begin the thread
         self.parent.threadpool.start(scraper_thread)
 
-    # Show error method 
+    # Show error method
     def show_error(self):
 
-        # Pop up a dialog for the error message 
-        popups.error_popup(text="Client not found!", detailed_text="Make sure the Request Log ID has already been created or is within bounds")
+        # Pop up a dialog for the error message
+        popups.error_popup(text="Client not found!",
+                           detailed_text="Make sure the Request Log ID has already been created or is within bounds")
 
-    # Set client fields 
+    # Show error method
+    def show_traceback_error(self, signal):
+
+        print(signal)
+
+        # Pop up a dialog for the error message
+        popups.error_popup(text="A critical error has occured.",
+                           detailed_text=signal)
+
+    # Set client fields
+
     def set_client_fields(self):
 
-        # Enable the search btn
-        self.enable_search_btn(True)
+        # Enable the search btn and change the text back
+        self.search_btn.setEnabled(True)
+        self.search_btn.setText("Search")
 
         # Call the parents set client fields method
         self.parent.set_client_info_fields()
 
-
-    # Enable search btn
-    def enable_search_btn(self, signal):
-
-        # Enable btn based on signal sent 
-        self.search_btn.setEnabled(signal)
-
-        # Set the search btn text based on the signal 
-        text = "Search" if signal else "Searching"
-        self.search_btn.setText(text)
-
-    #Search bar text changed 
+    # Search bar text changed
     def search_text_changed(self):
 
-        #Disable the search button if the search field is empty 
-        if ( not self.search_bar.text() ):
+        # Disable the search button if the search field is empty
+        if (not self.search_bar.text()):
             self.search_btn.setEnabled(False)
-        else: 
+        else:
             self.search_btn.setEnabled(True)
