@@ -171,3 +171,18 @@ class FVCalcAmountWidget(QtWidgets.QWidget):
 
         # Set the amount label to the current calculated value 
         self.total_amount.setText( "${}".format( approved_amount ) )
+
+        return float(approved_amount)
+
+    def get_category(self):
+        return (self.food_checkbox.isChecked(), self.diapers_checkbox.isChecked(), self.fuel_checkbox.isChecked())
+
+    def is_populated(self):
+
+        food = self.food_checkbox.isChecked()
+        fuel = self.fuel_checkbox.isChecked()
+        diapers = self.diapers_checkbox.isChecked()
+        location = self.safeway_combobox.currentText()
+
+        return (food or fuel or diapers)
+

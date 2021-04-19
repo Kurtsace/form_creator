@@ -3,7 +3,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from view.MainWindow import MainWindow
 
-if __name__ == 'main':
+if __name__ == '__main__':
 
     app = QtWidgets.QApplication([])
 

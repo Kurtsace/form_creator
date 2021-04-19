@@ -3,8 +3,16 @@ from PyQt5.QtCore import Qt
 
 #Tab widgets 
 from .common_widgets.SearchBarWidget import SearchBarWidget
+from .common_widgets.ClientInfoWidget import ClientInfoWidget
 from .fv_tab_widgets.FVClientInfoWidget import FVClientInfoWidget
 from .fv_tab_widgets.FVCalcAmountWidget import FVCalcAmountWidget
+from view.custom_widgets.popup_dialog.popups import warning_popup
+
+#Model
+from model.client import client_info
+
+#PDF
+from services.pdf import create_food_voucher
 
 #Food voucher tab class
 class FVTabWidget(QtWidgets.QWidget):
@@ -21,7 +29,8 @@ class FVTabWidget(QtWidgets.QWidget):
         #Setup UI 
         self.setup_ui()
 
-        #Connect signals 
+        #Connect signals
+        self.connect_signals() 
         
     #Setup UI method 
     def setup_ui(self):
@@ -33,7 +42,7 @@ class FVTabWidget(QtWidgets.QWidget):
         self.confirm_client_label = QtWidgets.QLabel("Confirm Client Info")
 
         #Instantiate the FV Client Info Widget
-        self.client_info_widget = FVClientInfoWidget()
+        self.client_info_widget = ClientInfoWidget(add_address_line=True)
 
         #Instantiate the FV Calc Amount Widget 
         self.calc_amount_widget = FVCalcAmountWidget()
@@ -42,17 +51,45 @@ class FVTabWidget(QtWidgets.QWidget):
         self.create_btn = QtWidgets.QPushButton(text="Create")
 
         #Create a vertical spacer
-        spacer = QtWidgets.QSpacerItem(0, 2)
+        spacer = QtWidgets.QSpacerItem(0, 1)
 
         #Add widgets to the main layout
         layout.addSpacerItem(spacer)
         layout.addWidget(self.client_info_widget)
         layout.addWidget(self.calc_amount_widget)
         layout.addWidget(self.create_btn)
+        layout.addSpacerItem(spacer)
 
         #Set the main layout 
         self.setLayout(layout)
 
     # Connect signals 
     def connect_signals(self):
-        pass
+        
+        self.create_btn.clicked.connect(self.create_form)
+
+    def create_form(self):
+
+        if self.client_info_widget.is_populated():
+
+            gender = self.client_info_widget.get_selected_gender()
+            if gender != '':
+
+                client_info['gender'] = gender
+
+                if self.calc_amount_widget.is_populated():
+
+                    amount = self.calc_amount_widget.calculate_amount()
+                    food, diapers, fuel = self.calc_amount_widget.get_category()
+                    id_ = self.window().get_id()
+                    create_food_voucher(amount, food, diapers, fuel, "TEST", "240-123-4567", id_)
+                else:
+                    # Show warning message
+                    warning_popup("Approved amount form is incomplete!")
+
+            else:
+                # Show warning message
+                    warning_popup("Gender needs to be selected!")
+        else:
+            #Show warning 
+            warning_popup("No client selected! Make sure to search for a request log first.")

@@ -41,13 +41,16 @@ class SATabWidget(QtWidgets.QWidget):
         self.create_btn = QtWidgets.QPushButton(text="Create")
 
         #Create a vertical spacer
-        spacer = QtWidgets.QSpacerItem(0,2)
+        spacer = QtWidgets.QSpacerItem(0,1)
+        spacer2 = QtWidgets.QSpacerItem(0, 35)
 
         #Add widgets to the layout
         layout.addSpacerItem(spacer) 
         layout.addWidget(self.client_info_widget)
         layout.addWidget(self.night_spinbox_widget)
+        layout.addSpacerItem(spacer2)
         layout.addWidget(self.create_btn)
+        layout.addSpacerItem(spacer) 
 
         #Set the layout 
         self.setLayout(layout)
@@ -60,16 +63,14 @@ class SATabWidget(QtWidgets.QWidget):
     def create_form(self):
 
         #Make sure fields are populated 
-        if len(client_info.keys()) > 0:
+        if self.client_info_widget.is_populated():
 
-            #MAke sure gender is selected
-            if ( self.client_info_widget.male_radio_btn.isChecked() or self.client_info_widget.female_radio_btn.isChecked() ):
+            #Make sure gender is selected
+            gender = self.client_info_widget.get_selected_gender()
+            if ( gender != ''):
 
                 #Set gender
-                if self.client_info_widget.female_radio_btn.isChecked():
-                    client_info['gender'] = self.client_info_widget.female_radio_btn.text()
-                else:
-                    client_info['gender'] = self.client_info_widget.male_radio_btn.text()
+                client_info['gender'] = gender
 
                 #Create form 
                 create_auth_form_sa(self.night_spinbox_widget.value())

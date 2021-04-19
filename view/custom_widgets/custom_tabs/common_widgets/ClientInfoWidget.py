@@ -15,10 +15,12 @@ from model.client import client_info
 class ClientInfoWidget(QtWidgets.QWidget):
 
     #Init 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, add_address_line=False, *args, **kwargs):
 
         #Call super 
         super(ClientInfoWidget, self).__init__(*args, **kwargs)
+
+        self.add_address_line = add_address_line
 
         #Setup UI
         self.setup_ui()
@@ -37,6 +39,7 @@ class ClientInfoWidget(QtWidgets.QWidget):
         self.case_number_label = QtWidgets.QLabel(text="Case Number:")
         self.client_name_label = QtWidgets.QLabel(text="Client Name:")
         self.dob_label = QtWidgets.QLabel(text="Date Of Birth:")
+        self.address_label = QtWidgets.QLabel(text="Address:")
 
         #Create read only line edit boxes
         self.case_number_line = QtWidgets.QLineEdit()
@@ -47,6 +50,10 @@ class ClientInfoWidget(QtWidgets.QWidget):
         self.case_number_line.setReadOnly(True)
         self.client_name_line.setReadOnly(True)
         self.dob_line.setReadOnly(True)
+
+        if(self.add_address_line):
+            self.address_line = QtWidgets.QLineEdit()
+            self.address_line.setReadOnly(True)
 
         #Create a horizontal layout to store the buttons 
         self.radio_layout = QtWidgets.QHBoxLayout()
@@ -90,11 +97,29 @@ class ClientInfoWidget(QtWidgets.QWidget):
         self.form_layout.addRow(self.case_number_label, self.case_number_line)
         self.form_layout.addRow(self.client_name_label, self.client_name_line)
         self.form_layout.addRow(self.dob_label, self.dob_line)
+
+        if(self.add_address_line):
+            self.form_layout.addRow(self.address_label, self.address_line)
+
         self.form_layout.addRow(self.gender_label, self.radio_layout)
 
     #Connect signals to the widgets 
     def connect_signals(self):
         pass
+
+    # Are the fields populated 
+    def is_populated(self):
+        # Only really need to check one of the fields 
+        return self.client_name_line.text() != ''
+
+    # Get the gender selected (if any)
+    def get_selected_gender(self):
+        if self.male_radio_btn.isChecked():
+            return self.male_radio_btn.text()
+        elif self.female_radio_btn.isChecked():
+            return self.female_radio_btn.text()
+
+        return ''
 
     #Set client info fields 
     def set_fields(self):
@@ -106,3 +131,6 @@ class ClientInfoWidget(QtWidgets.QWidget):
         self.case_number_line.setText(client_info['case_number'])
         self.client_name_line.setText(client_info['full_name'])
         self.dob_line.setText(client_info['dob'])
+
+        if(self.add_address_line):
+            self.address_line.setText(client_info['address'])

@@ -38,7 +38,7 @@ class SRDependentsWidget(QtWidgets.QWidget):
         #Create the radio buttons for selecting a partner
         self.partner_rb_yes = QtWidgets.QRadioButton(text="Yes")
         self.partner_rb_no = QtWidgets.QRadioButton(text="No")
-        #self.partner_rb_no.setChecked()
+        self.partner_rb_no.setChecked(True)
 
         #Add the radio buttons to the radio button group
         self.partner_rb_group.addButton(self.partner_rb_yes)
@@ -69,3 +69,13 @@ class SRDependentsWidget(QtWidgets.QWidget):
 
         #Set the main layout 
         self.setLayout(layout)
+
+    # Get number of children
+    def get_children(self):
+        return self.children_spinbox.value()
+
+    # Has a spouse?
+    def has_spouse(self):
+        return self.partner_rb_yes.isChecked()
+
+

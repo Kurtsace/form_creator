@@ -137,3 +137,7 @@ class SearchBarWidget(QtWidgets.QWidget):
             self.search_btn.setEnabled(False)
         else:
             self.search_btn.setEnabled(True)
+
+    # Get id 
+    def get_id(self):
+        return self.search_bar.text()

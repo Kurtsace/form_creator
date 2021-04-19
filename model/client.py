@@ -15,11 +15,11 @@ client_info = {
 
 
 # Set fields
-def setFields(case_number_='', first_name_='', last_name_='', dob_='', full_name_='', address_='', gender_=''):
+def setFields(case_number_='', first_name_='', last_name_='', dob_='', address_='', gender_=''):
     # Set client  variables
     client_info['case_number'] = case_number_
-    client_info['first_name'] = first_name_.title().strip()
-    client_info['last_name'] = last_name_.title().strip()
+    client_info['first_name'] = first_name_.strip().title()
+    client_info['last_name'] = last_name_.strip().title()
     client_info['dob'] = dob_
     client_info['full_name'] = first_name_ + " " + last_name_
     client_info['address'] = address_

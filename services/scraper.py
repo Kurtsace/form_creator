@@ -22,7 +22,7 @@ def get_client_info(id):
 
     # Make sure we are able to load the webdriver
     if not os.path.exists(driver_path):
-        print("Chromedriver not found")
+        return (-1, "Chromedriver not found!")
 
     # Edit the options
     # Disable extensions and set the window to run headless
@@ -32,6 +32,7 @@ def get_client_info(id):
 
     # Start a driver instance
     try:
+
         driver = webdriver.Chrome(
             executable_path=driver_path, options=chrome_options, desired_capabilities=chrome_options.to_capabilities())
 
@@ -43,11 +44,9 @@ def get_client_info(id):
         field_elements = driver.find_elements_by_xpath(
             "//*[@id='SPFieldText']")
 
-        print(field_elements)
-
     except:
         traceback.print_exc()
-        return -1, traceback.format_exc()
+        return (-1, traceback.format_exc())
 
     # Ensure the element list is not empty
     if field_elements:
@@ -65,10 +64,11 @@ def get_client_info(id):
         # [5] = unit number
         # Note that address can be blank here depending on the type of request
         address = field_elements[5] + " " + field_elements[4]
-        client.setFields(field_elements[0], field_elements[1],
-                         field_elements[2], field_elements[3], address)
-
+        client.setFields(case_number_=field_elements[0], first_name_=field_elements[1],
+                         last_name_=field_elements[2], dob_=field_elements[3], address_=address)
         client.toString()
-
+        
     # End the driver instance
     driver.quit()
+
+    return (1, "")

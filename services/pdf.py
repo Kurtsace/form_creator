@@ -118,7 +118,7 @@ def create_auth_form_sa(nights):
     create_footer(pdf)
 
     # Output the PDF
-    output_file(pdf)
+    output_file(pdf, client_info['full_name'] + " - Salvation Army")
 
 # Create a PDf of a food voucher
 def create_food_voucher(amount, food, diapers, fuel, location, fax, id):
@@ -135,10 +135,6 @@ def create_food_voucher(amount, food, diapers, fuel, location, fax, id):
     # Voucher number
     pdf.cell(200, 10, txt="Voucher Number: {}".format(id), ln=1, align="L")
 
-    # Vendor line
-    pdf.cell(200, 10, txt="To: Safeway {}".format(
-        location), ln=1, align="L")
-
     # Fax number
     pdf.cell(200, 10, txt="Fax Number: {}".format(fax), ln=1, align="L")
 
@@ -153,6 +149,10 @@ def create_food_voucher(amount, food, diapers, fuel, location, fax, id):
     # Client DOB
     pdf.cell(200, 10, txt="Address: {}".format(
         client_info['address']), ln=1, align="L")
+
+    # Gender 
+    pdf.cell(200, 10, txt="Gender: {}".format(
+        client_info['gender']), ln=1, align="L")
 
     # Authorized amount and items
     pdf.multi_cell(
@@ -196,7 +196,7 @@ def create_food_voucher(amount, food, diapers, fuel, location, fax, id):
         200, 10, txt="In Winnipeg:\neiaafterhoursbilling@gov.mb.ca or Fax 204-948-4048 \nOutside Winnipeg:\nMilena.king@gov.mb.ca or Fax 1-204-726-6539")
 
     # Output the PDF
-    output_file(pdf)
+    output_file(pdf, client_info['full_name'] + " - Voucher")
 
 # Create a PDF of a Son Rise auth form
 def create_auth_form_sr(spouse, children, nights):
@@ -236,7 +236,7 @@ def create_auth_form_sr(spouse, children, nights):
 
     # Client case number
     pdf.cell(200, 10, txt="Case Number: {}".format(
-        client_info['case_num']), ln=1, align="L")
+        client_info['case_number']), ln=1, align="L")
 
     # Client DOB
     pdf.cell(200, 10, txt="DOB: {}".format(
@@ -285,10 +285,10 @@ def create_auth_form_sr(spouse, children, nights):
     create_footer(pdf)
 
     # Output the file
-    output_file(pdf)
+    output_file(pdf, client_info['full_name'] + " - SonRise")
 
 
-def output_file(pdf):
+def output_file(pdf, filename):
 
     # Output the PDF --Use client name as the file name
 
@@ -297,11 +297,11 @@ def output_file(pdf):
 
     # Output file to the folder if it already exists
     if os.path.exists(path):
-        filename = path + "/{}.pdf".format(client_info['full_name'])
+        filename = path + "/{}.pdf".format(filename)
         pdf.output(filename)
 
     # Make the folder if it does not exist then save it in there
     else:
         os.mkdir(path)
-        filename = path + "/{}.pdf".format(client_info['full_name'])
+        filename = path + "/{}.pdf".format(filename)
         pdf.output(filename)

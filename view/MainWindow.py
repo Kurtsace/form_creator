@@ -62,3 +62,6 @@ class MainWindow(QMainWindow):
         
         #Call the main tabs set client info fields method 
         self.main_tab.set_client_info_fields()
+
+    def get_id(self):
+        return self.search_bar_widget.get_id()
