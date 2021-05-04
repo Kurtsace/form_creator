@@ -4,17 +4,14 @@ from PyQt5.QtCore import Qt
 # Import services
 from services.calculations import calculate_food_amount
 
-# Custom widget class that contains the client info fields as follows:
-#
-# Calculate Approved Amount  | QLabel
-# Col 1                                  | Col 2                           | Col 3
-# Days: [  ] | QLabel : QSpinBox           [] Food | QCheckBox QLabel
-# Adults: [  ] | QLabel : QSpinBox         [] Diapers | QCheckBox QLabel     $Calculated amount | QLabel
-# Children: [  ] | QLabel : QSpinBox       [] Fuel | QCheckBox QLabel
-#
-# Safeway Location : [        ] | QLabel : QComboBox
+# Import settings 
+from settings import safeway_list
 
+"""
+    Widget used to calculate the amounts and prompt for client info
+    such as the amount of kids, adults, and days
 
+"""
 class FVCalcAmountWidget(QtWidgets.QWidget):
 
     # Init
@@ -48,6 +45,9 @@ class FVCalcAmountWidget(QtWidgets.QWidget):
         # Create the safeway location combo box widget
         self.safeway_label = QtWidgets.QLabel(text="Safeway Location:")
         self.safeway_combobox = QtWidgets.QComboBox()
+
+        # Populate the combo box
+        self.safeway_combobox.addItems(safeway_list.keys())
 
         # Add the safeway label and combo box into its own form layout
         safeway_layout = QtWidgets.QFormLayout()

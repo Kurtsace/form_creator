@@ -2,13 +2,15 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 
 # Custom widgets
-from .common_widgets.widgets import *
+from .common_widgets.ClientInfoWidget import ClientInfoWidget
+from .common_widgets.SearchBarWidget import SearchBarWidget
 from .sr_tab_widgets.SRDependentsWidget import SRDependentsWidget
+from .common_widgets.NightSpinboxWidget import NightSpinboxWidget
 
 # Pop up dialog
 from ..popup_dialog.popups import warning_popup
 
-# PDF creator 
+# PDF creator
 from services.pdf import create_auth_form_sr
 
 # Client info
@@ -31,7 +33,7 @@ class SRTabWidget(QtWidgets.QWidget):
         # Setup UI
         self.setup_ui()
 
-        # Connect signals 
+        # Connect signals
         self.connect_signals()
 
     # Setup UI
@@ -75,12 +77,12 @@ class SRTabWidget(QtWidgets.QWidget):
     # Create form method
     def create_form(self):
 
-        # Make sure there is a client selected 
+        # Make sure there is a client selected
         if self.client_info_widget.is_populated():
 
             # Check if gender has been selected as well
             gender = self.client_info_widget.get_selected_gender()
-            if( gender != ''):
+            if(gender != ''):
 
                 # Call create auth form
                 client_info['gender'] = gender
@@ -93,5 +95,6 @@ class SRTabWidget(QtWidgets.QWidget):
                 # Show warning message
                 warning_popup("Gender needs to be selected!")
         else:
-            #Show warning 
-            warning_popup("No client selected! Make sure to search for a request log first.")
+            # Show warning
+            warning_popup(
+                "No client selected! Make sure to search for a request log first.")

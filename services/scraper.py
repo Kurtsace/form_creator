@@ -5,17 +5,14 @@ from selenium import webdriver
 import model.client as client
 import traceback
 import os
-
+from settings import get_url
 
 # Get client info
 def get_client_info(id):
 
     # For testing purposes supply a hard coded url
     # Later on replace this with a get request to the hcc-server for updated urls
-    url = "http://collaboration.mbgov.ca/sites/MHCD/Security_Info/HCC/EIA/Lists/Request%20Log%2010/DispForm.aspx?ID={}".format(
-        id)
-
-    print(url)
+    url = get_url() + "ID={}".format(id)
 
     # Path of the web driver
     driver_path = "W:/houhcc/Form Creator Resources/Webdriver/chromedriver.exe"
@@ -41,8 +38,7 @@ def get_client_info(id):
 
         # Scrape the data needed
         # Get the xpath of the SPFieldText item within the table only
-        field_elements = driver.find_elements_by_xpath(
-            "//*[@id='SPFieldText']")
+        field_elements = driver.find_elements_by_xpath("//*[@id='SPFieldText']")
 
     except:
         traceback.print_exc()

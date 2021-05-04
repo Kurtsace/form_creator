@@ -2,8 +2,12 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from view.MainWindow import MainWindow
+import settings
 
 if __name__ == '__main__':
+
+    # init settings 
+    settings.init()
 
     app = QtWidgets.QApplication([])
 
@@ -11,3 +15,4 @@ if __name__ == '__main__':
     window.show()
 
     app.exec_()
+
