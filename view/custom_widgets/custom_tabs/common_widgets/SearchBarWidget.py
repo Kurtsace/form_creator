@@ -4,7 +4,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QThreadPool
 
 # Other imports
-from services.workers import ScraperWorker
+from services.worker_threads.scraper_worker import ScraperWorker
 from view.custom_widgets.popup_dialog import popups
 from services.scraper import get_client_info
 

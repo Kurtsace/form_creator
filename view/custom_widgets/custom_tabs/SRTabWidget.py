@@ -8,7 +8,7 @@ from .sr_tab_widgets.SRDependentsWidget import SRDependentsWidget
 from .common_widgets.NightSpinboxWidget import NightSpinboxWidget
 
 # Pop up dialog
-from ..popup_dialog.popups import warning_popup
+from ..popup_dialog.popups import warning_popup, info_popup
 
 # PDF creator
 from services.pdf import create_auth_form_sr
@@ -90,6 +90,11 @@ class SRTabWidget(QtWidgets.QWidget):
                 nights = self.night_spinbox_widget.value()
                 spouse = self.dependents_widget.has_spouse()
                 create_auth_form_sr(spouse, children, nights)
+
+                info_popup("Form successfuly created")
+
+                # Clear output fields 
+                self.parent().parent().parent().clear_client_info_fields()
 
             else:
                 # Show warning message

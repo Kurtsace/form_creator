@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt
 from .common_widgets.SearchBarWidget import SearchBarWidget
 from .common_widgets.ClientInfoWidget import ClientInfoWidget
 from .fv_tab_widgets.FVCalcAmountWidget import FVCalcAmountWidget
-from view.custom_widgets.popup_dialog.popups import warning_popup
+from view.custom_widgets.popup_dialog.popups import warning_popup, info_popup
 
 # Model
 from model.client import client_info
@@ -88,6 +88,11 @@ class FVTabWidget(QtWidgets.QWidget):
                     fax_number = safeway_list[location]
 
                     create_food_voucher(amount, food, diapers, fuel, location, fax_number, id_)
+
+                    info_popup("Form successfuly created")
+                    
+                    # Clear output fields 
+                    self.parent().parent().parent().clear_client_info_fields()
                 else:
                     # Show warning message
                     warning_popup("Approved amount form is incomplete!")

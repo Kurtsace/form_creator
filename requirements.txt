@@ -1,4 +1,6 @@
 fpdf==1.7.2
+packaging==21.2
+pyparsing==2.4.7
 PyQt5==5.15.3
 PyQt5-Qt==5.15.2
 PyQt5-sip==12.8.1

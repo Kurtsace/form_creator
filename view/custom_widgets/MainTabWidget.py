@@ -55,3 +55,9 @@ class MainTabWidget(QtWidgets.QWidget):
         self.sa_tab.client_info_widget.set_fields()
         self.fv_tab.client_info_widget.set_fields()
         self.sr_tab.client_info_widget.set_fields()
+
+    #Clear all child tab input fields 
+    def clear_client_info_fields(self):
+        self.sa_tab.client_info_widget.clear()
+        self.fv_tab.client_info_widget.clear()
+        self.sr_tab.client_info_widget.clear()

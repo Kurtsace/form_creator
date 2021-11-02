@@ -10,6 +10,7 @@ safeway_list = {}
 
 settings = {}
 
+INTERNAL_VERSION_NUMBER = '1.2.0.0'
 
 def init():
 

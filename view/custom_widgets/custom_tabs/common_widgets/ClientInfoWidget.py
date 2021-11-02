@@ -32,7 +32,7 @@ class ClientInfoWidget(QtWidgets.QWidget):
     def setup_ui(self):
 
         #Create the a main vertical layout
-        layout = QtWidgets.QVBoxLayout()
+        self.layout = QtWidgets.QVBoxLayout()
 
         #Create the labels
         self.confirm_client_label = QtWidgets.QLabel(text="Confirm Client Info")
@@ -84,11 +84,11 @@ class ClientInfoWidget(QtWidgets.QWidget):
         self.create_formgroup()
 
         #Add the form layout and the main label to the vertical layout
-        layout.addWidget(self.confirm_client_label)
-        layout.addLayout(self.form_layout)
+        self.layout.addWidget(self.confirm_client_label)
+        self.layout.addLayout(self.form_layout)
 
         #Set the widget layout 
-        self.setLayout(layout)
+        self.setLayout(self.layout)
     
     #Create form group
     def create_formgroup(self):
@@ -106,6 +106,34 @@ class ClientInfoWidget(QtWidgets.QWidget):
     #Connect signals to the widgets 
     def connect_signals(self):
         pass
+
+    # Clear fields helper func
+    def clear(self):
+        self.clear_fields(self.layout)
+
+    # Recursive clear field
+    def clear_fields(self, layout):
+        
+        # Loop through all widgets in the layout
+        widgets = [ layout.itemAt(i) for i in range(layout.count()) ]
+        for widget in widgets:
+
+            # Clear all widgets within the layout 
+            if isinstance(widget, QtWidgets.QVBoxLayout) or isinstance(widget, QtWidgets.QFormLayout) or isinstance(widget, QtWidgets.QHBoxLayout):
+                self.clear_fields(widget)
+
+            # If it is not a nested layout check type and clear the output/input
+            elif isinstance(widget, QtWidgets.QWidgetItem):
+                # Get the widget 
+                widget = widget.widget()
+
+                if isinstance(widget, QtWidgets.QLineEdit):
+                    widget.setText("")
+
+                # Clear radio button or checkbox
+                elif isinstance(widget, QtWidgets.QRadioButton) or isinstance(widget, QtWidgets.QCheckBox):
+                    widget.setChecked(False)
+
 
     # Are the fields populated 
     def is_populated(self):

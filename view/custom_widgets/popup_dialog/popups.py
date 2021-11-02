@@ -3,6 +3,31 @@ from PyQt5.QtWidgets import QMessageBox
 
 #Pop ups dialogs to show when thigns go wrong or to warn users 
 
+#Info message pop up 
+def info_popup(text="Info text", window_title="Form Created"):
+
+    #Intantiate a message box 
+    msg = QMessageBox()
+
+    #Set window icon 
+    #msg.setWindowIcon()
+
+    #Set the window title 
+    msg.setWindowTitle(window_title)
+
+    #Set the text content to show 
+    msg.setText(text)
+
+    #Set the icon to warning 
+    msg.setIcon(QMessageBox.Information)
+
+    #Set the standard buttons to show 
+    msg.setStandardButtons(QMessageBox.Ok)
+
+    #Show the dialog 
+    msg.exec_()
+    msg.show()
+
 #Warning message pop up 
 def warning_popup(text="Warning text"):
 

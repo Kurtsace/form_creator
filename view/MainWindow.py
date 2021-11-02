@@ -31,6 +31,9 @@ class MainWindow(QMainWindow):
         #Set the window title 
         self.setWindowTitle("Form Creator")
 
+        #Set window icon 
+        self.setWindowIcon(QtGui.QIcon(":Images/icon.png"))
+
         #Create the central widget 
         self.central_widget = QtWidgets.QWidget()
 

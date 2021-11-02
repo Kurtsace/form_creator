@@ -2,7 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from services.pdf import create_auth_form_sa
 from model.client import client_info
-from view.custom_widgets.popup_dialog.popups import warning_popup
+from view.custom_widgets.popup_dialog.popups import warning_popup, info_popup
 
 # Custom widgets
 from .common_widgets.ClientInfoWidget import ClientInfoWidget
@@ -32,7 +32,7 @@ class SATabWidget(QtWidgets.QWidget):
     # Setup UI
     def setup_ui(self):
 
-        # Set vertical layout
+        # Set vertical self.layout
         layout = QtWidgets.QVBoxLayout()
 
         # Add the SA client info widget
@@ -48,7 +48,7 @@ class SATabWidget(QtWidgets.QWidget):
         spacer = QtWidgets.QSpacerItem(0, 1)
         spacer2 = QtWidgets.QSpacerItem(0, 35)
 
-        # Add widgets to the layout
+        # Add widgets to the self.layout
         layout.addSpacerItem(spacer)
         layout.addWidget(self.client_info_widget)
         layout.addWidget(self.night_spinbox_widget)
@@ -78,6 +78,10 @@ class SATabWidget(QtWidgets.QWidget):
 
                 # Create form
                 create_auth_form_sa(self.night_spinbox_widget.value())
+
+                info_popup("Form successfuly created")
+
+                self.parent().parent().parent().clear_client_info_fields()
             else:
                 # Show warning message
                 warning_popup("Gender needs to be selected!")

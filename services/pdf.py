@@ -291,6 +291,7 @@ def create_auth_form_sr(spouse, children, nights):
 def output_file(pdf, filename):
 
     # Output the PDF --Use client name as the file name
+    filename = filename.title()
 
     # Make a folder in the desktop if it does not exist already
     path = "C:/Users/{}/Desktop/Auth Forms".format(os.getlogin())
