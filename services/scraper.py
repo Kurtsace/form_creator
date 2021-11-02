@@ -5,14 +5,14 @@ from selenium import webdriver
 import model.client as client
 import traceback
 import os
-from settings import get_url
+from settings import settings
 
 # Get client info
 def get_client_info(id):
 
     # For testing purposes supply a hard coded url
     # Later on replace this with a get request to the hcc-server for updated urls
-    url = get_url() + "ID={}".format(id)
+    url = settings.get_url() + "ID={}".format(id)
 
     # Path of the web driver
     driver_path = "W:/houhcc/Form Creator Resources/Webdriver/chromedriver.exe"

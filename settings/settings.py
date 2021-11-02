@@ -10,7 +10,7 @@ safeway_list = {}
 
 settings = {}
 
-INTERNAL_VERSION_NUMBER = '1.2.0.0'
+INTERNAL_VERSION_NUMBER = "1.3.4.4"
 
 def init():
 
@@ -32,5 +32,16 @@ def init():
 
         settings["request_log_url"] = data["url"]
 
+
+
+
+# Returns the current request log URL
 def get_url():
     return settings["request_log_url"]
+
+
+
+# Returns internal version number
+def get_internal_ver():
+    return INTERNAL_VERSION_NUMBER
+

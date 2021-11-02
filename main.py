@@ -2,12 +2,12 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from view.MainWindow import MainWindow
-import settings
+from settings import settings
 
 if __name__ == '__main__':
 
     # init settings 
-    settings.init()
+    #settings.init()
 
     app = QtWidgets.QApplication([])
 

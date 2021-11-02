@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt
 from services.calculations import calculate_food_amount
 
 # Import settings 
-from settings import safeway_list
+from settings.settings import safeway_list
 
 """
     Widget used to calculate the amounts and prompt for client info

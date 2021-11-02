@@ -14,7 +14,7 @@ from model.client import client_info
 from services.pdf import create_food_voucher
 
 # Settings 
-from settings import safeway_list
+from settings.settings import safeway_list
 
 # Food voucher tab class
 class FVTabWidget(QtWidgets.QWidget):
